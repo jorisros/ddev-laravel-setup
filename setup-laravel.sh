@@ -40,7 +40,20 @@ mkdir "$PROJECT_NAME"
 cd "$PROJECT_NAME"
 
 echo "Configuring DDEV for Laravel..."
-ddev config --project-type=laravel --docroot=public 
+ddev config --project-type=laravel --database=mysql:8.0 --docroot=public --disable-upload-dirs-warning
+
+echo "Configuring Laravel database connection..."
+# Update .env file to use MySQL
+if [ -f ".env" ]; then
+    sed -i.bak 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+    sed -i.bak 's/DB_HOST=.*/DB_HOST=db/' .env
+    sed -i.bak 's/DB_PORT=.*/DB_PORT=3306/' .env
+    sed -i.bak 's/DB_DATABASE=.*/DB_DATABASE=db/' .env
+    sed -i.bak 's/DB_USERNAME=.*/DB_USERNAME=db/' .env
+    sed -i.bak 's/DB_PASSWORD=.*/DB_PASSWORD=db/' .env
+    rm .env.bak
+    echo "Database configuration updated in .env"
+fi
 
 echo "Starting DDEV..."
 ddev start
