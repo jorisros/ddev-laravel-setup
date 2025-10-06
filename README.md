@@ -8,5 +8,5 @@ curl -fsSL https://raw.githubusercontent.com/jorisros/ddev-laravel-setup/main/se
 
 Then can you run the creation of new projects script
 ```bash
-ddev-laravel
+ddev-laravel project-name
 ```
