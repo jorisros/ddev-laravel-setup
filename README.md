@@ -10,3 +10,17 @@ Then can you run the creation of new projects script
 ```bash
 ddev-laravel project-name
 ```
+
+## Development
+```bash
+git clone git@github.com:jorisros/ddev-laravel-setup.git
+```
+```bash
+cd ddev-laravel-setup
+```
+```bash
+chmod +x setup-laravel.sh
+```
+```bash
+./setpu-laravel.sh
+```
