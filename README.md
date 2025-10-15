@@ -1,5 +1,8 @@
-# ddev-laravel-setup
-A project to store the script for DDEV project setup
+# Automate Laravel 12 Project Setup with DDEV
+This Bash script simplifies the process of creating a new Laravel 12 project using DDEV—a local development environment tool for PHP projects. It handles all the necessary configuration and setup steps, so you can start developing your Laravel application in minutes.
+
+### Requirements
+DDEV installed and configured.
 
 ## Install script locally on OSX
 
