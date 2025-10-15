@@ -4,6 +4,14 @@ This Bash script simplifies the process of creating a new Laravel 12 project usi
 ### Requirements
 DDEV installed and configured.
 
+### Todo
+- [X] Make a installer
+- [X] Let it work on Linux
+- [ ] Let it work on Windows (have no windows pc anymore)
+- [ ] Add feature to switch database (Mysql/Sqlite/Postgress)
+- [ ] Add option for FrankenPHP
+Let me know if you want anything added
+
 ## Install script locally on OSX
 
 ### Run this command only on linux
