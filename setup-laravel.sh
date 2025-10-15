@@ -2,7 +2,8 @@
 
 # Laravel DDEV Setup Script
 # Creates a new Laravel 12 project with DDEV
-# Usage: ./setup-laravel.sh <project-name>
+# Usage: ./setup-laravel.sh <project-name> [database-type]
+# Database types: mysql, mariadb, sqlite, postgres (default: mysql)
 
 set -e  # Exit on error
 
@@ -21,6 +22,19 @@ if [ -z "$1" ]; then
 fi
 
 PROJECT_NAME="$1"
+DB_TYPE="${2:-mysql}"  # Default to mysql if not specified
+
+# Validate database type
+case "$DB_TYPE" in
+    mysql|mariadb|sqlite|postgres)
+        echo "Using database type: $DB_TYPE"
+        ;;
+    *)
+        echo "Error: Invalid database type '$DB_TYPE'"
+        echo "Supported types: mysql, mariadb, sqlite, postgres"
+        exit 1
+        ;;
+esac
 
 # Check if project already exists in DDEV
 if ddev list | grep -q "$PROJECT_NAME"; then
@@ -42,15 +56,47 @@ cd "$PROJECT_NAME"
 echo "Configuring DDEV for Laravel..."
 ddev config --project-type=laravel --database=mysql:8.0 --docroot=public --disable-upload-dirs-warning
 
+echo "Configuring DDEV for Laravel..."
+case "$DB_TYPE" in
+    mysql)
+        ddev config --project-type=laravel --database=mysql:8.0 --docroot=public --disable-upload-dirs-warning
+        ;;
+    mariadb)
+        ddev config --project-type=laravel --database=mariadb:10.11 --docroot=public --disable-upload-dirs-warning
+        ;;
+    postgres)
+        ddev config --project-type=laravel --database=postgres:15 --docroot=public --disable-upload-dirs-warning
+        ;;
+    sqlite)
+        ddev config --project-type=laravel --docroot=public --disable-upload-dirs-warning
+        ;;
+esac
+
 echo "Configuring Laravel database connection..."
-# Update .env file to use MySQL
+# Update .env file based on database type
 if [ -f ".env" ]; then
-    sed -i.bak 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
-    sed -i.bak 's/DB_HOST=.*/DB_HOST=db/' .env
-    sed -i.bak 's/DB_PORT=.*/DB_PORT=3306/' .env
-    sed -i.bak 's/DB_DATABASE=.*/DB_DATABASE=db/' .env
-    sed -i.bak 's/DB_USERNAME=.*/DB_USERNAME=db/' .env
-    sed -i.bak 's/DB_PASSWORD=.*/DB_PASSWORD=db/' .env
+    case "$DB_TYPE" in
+        mysql|mariadb)
+            sed -i.bak 's/DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+            sed -i.bak 's/DB_HOST=.*/DB_HOST=db/' .env
+            sed -i.bak 's/DB_PORT=.*/DB_PORT=3306/' .env
+            sed -i.bak 's/DB_DATABASE=.*/DB_DATABASE=db/' .env
+            sed -i.bak 's/DB_USERNAME=.*/DB_USERNAME=db/' .env
+            sed -i.bak 's/DB_PASSWORD=.*/DB_PASSWORD=db/' .env
+            ;;
+        postgres)
+            sed -i.bak 's/DB_CONNECTION=.*/DB_CONNECTION=pgsql/' .env
+            sed -i.bak 's/DB_HOST=.*/DB_HOST=db/' .env
+            sed -i.bak 's/DB_PORT=.*/DB_PORT=5432/' .env
+            sed -i.bak 's/DB_DATABASE=.*/DB_DATABASE=db/' .env
+            sed -i.bak 's/DB_USERNAME=.*/DB_USERNAME=db/' .env
+            sed -i.bak 's/DB_PASSWORD=.*/DB_PASSWORD=db/' .env
+            ;;
+        sqlite)
+            sed -i.bak 's/DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env
+            sed -i.bak 's/DB_DATABASE=.*/DB_DATABASE=\/var\/www\/html\/database\/database.sqlite/' .env
+            ;;
+    esac
     rm .env.bak
     echo "Database configuration updated in .env"
 fi
