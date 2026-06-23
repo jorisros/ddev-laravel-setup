@@ -31,8 +31,7 @@ source ~/.bashrc
 
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jorisros/ddev-laravel-setup/main/setup-laravel.sh -o ~/.local/bin/ddev-laravel && chmod +x ~/.local/bin/ddev-laravel
-```
+mkdir -p ~/.local/bin && curl -fsSL https://raw.githubusercontent.com/jorisros/ddev-laravel-setup/main/setup-laravel.sh -o ~/.local/bin/ddev-laravel && chmod +x ~/.local/bin/ddev-laravel```
 
 Then can you run the creation of new projects script
 ```bash
