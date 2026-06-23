@@ -49,5 +49,5 @@ cd ddev-laravel-setup
 chmod +x setup-laravel.sh
 ```
 ```bash
-./setpu-laravel.sh
+./setup-laravel.sh
 ```
