@@ -8,7 +8,7 @@ DDEV installed and configured.
 - [X] Make a installer
 - [X] Let it work on Linux
 - [ ] Let it work on Windows (have no windows pc anymore)
-- [ ] Add feature to switch database (Mysql/Sqlite/Postgress)
+- [X] Add feature to switch database (Mysql/Sqlite/Postgress)
 - [ ] Add option for FrankenPHP
 Let me know if you want anything added
 
